@@ -27,14 +27,10 @@ patch_width = 32
 batch_size = 32
 nb_epoch = 50
 
-
-
-
 X_train = np.load("X_treino.npy")
 X_test = np.load("X_teste.npy")
 Y_train = np.load("Y_treino.npy")
 Y_test = np.load("Y_teste.npy")
-
 
 #random state = 10
 X_train, X_validation, Y_train, Y_validation = train_test_split(X_train,Y_train, test_size=0.1,random_state=10)
@@ -73,9 +69,7 @@ def lr_schedule(epoch):
     print (rate)
     return rate
 
-
 lrate = LearningRateScheduler(lr_schedule)
-
 
 from datetime import datetime
 string_date = datetime.now().strftime('%Y-%m-%d.%H:%M:%S')
@@ -89,15 +83,8 @@ callbacks = [model_checkpoint,early_stopping]
 #callbacks = [model_checkpoint,early_stopping,lrate] #Learning Rate Scheduler
 
 print('Not using data augmentation.')
-history=model.fit(X_train, Y_train,
-            batch_size=batch_size,
-            epochs=nb_epoch,
-            validation_data=(X_validation, Y_validation),
-            shuffle=True,
-            callbacks=callbacks)
+history=model.fit(X_train, Y_train, batch_size=batch_size, epochs=nb_epoch, validation_data=(X_validation, Y_validation), shuffle=True, callbacks=callbacks)
 f= open(results, 'w')
 writer = csv.writer(f)
 writer.writerows(zip(history.history['loss'],history.history['val_loss']))
 f.close()
-
-
